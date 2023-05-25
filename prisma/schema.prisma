@@ -10,13 +10,24 @@ datasource db {
      url      = env("DATABASE_URL")
 }
 
-model APIKey {
+enum ApiScope {
+     READ_API_KEY
+     WRITE_API_KEY
+     MODIFY_API_KEY
+     SERVERS_VIEW
+     SERVERS_MANAGE
+     RECEIVE_NONCE
+     ADMIN
+}
+
+model ApiKey {
      id        Int            @default(autoincrement()) @id
-     key       String         @unique
-     created   DateTime       @default(now())
-     expires   DateTime?
-     scopes    String[]
-     note      String?
+     for       String         @unique             // user key is for
+     key       String                             // encrypted key
+     created   DateTime       @default(now())     // creation date and time
+     expires   DateTime?                          // optional expiration date for key
+     scopes    ApiScope[]                         // scopes dictating which resources key can access
+     note      String?                            // note about what key is for
 }
 
 model Nonce {

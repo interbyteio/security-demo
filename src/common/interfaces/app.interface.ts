@@ -1,3 +1,5 @@
+import { Nonce } from "@prisma/client";
+
 export interface AppSvc {
-     generateNonce(): string;
+     generateNonce(): Promise<Nonce>;
 }

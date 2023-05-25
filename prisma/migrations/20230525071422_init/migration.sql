@@ -1,13 +1,17 @@
+-- CreateEnum
+CREATE TYPE "ApiScope" AS ENUM ('READ_API_KEY', 'WRITE_API_KEY', 'MODIFY_API_KEY', 'SERVERS_VIEW', 'SERVERS_MANAGE', 'RECEIVE_NONCE', 'ADMIN');
+
 -- CreateTable
-CREATE TABLE "APIKey" (
+CREATE TABLE "ApiKey" (
     "id" SERIAL NOT NULL,
+    "for" TEXT NOT NULL,
     "key" TEXT NOT NULL,
     "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "expires" TIMESTAMP(3),
-    "scopes" TEXT[],
+    "scopes" "ApiScope"[],
     "note" TEXT,
 
-    CONSTRAINT "APIKey_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ApiKey_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -19,7 +23,7 @@ CREATE TABLE "Nonce" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "APIKey_key_key" ON "APIKey"("key");
+CREATE UNIQUE INDEX "ApiKey_for_key" ON "ApiKey"("for");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Nonce_nonce_key" ON "Nonce"("nonce");
